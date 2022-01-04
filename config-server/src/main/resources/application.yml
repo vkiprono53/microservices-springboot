@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: CLOUD-SERVER
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/vkiprono53/config-server
+          clone-on-start: true
+
+server:
+  port: 9193
