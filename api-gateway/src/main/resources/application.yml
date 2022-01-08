@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        ## DEPARTMENT-SERVICE
+        - id: DEPARTMENT-SERVICE
+          uri: lb://DEPARTMENT-SERVICE/
+          predicates:
+            - Path=/departments/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: fallBackCommand
+                fallbackuri: forward:/fallback/departmentService
+
+        ## USER-SERVICE
+        - id: USER-SERVICE
+          uri: lb://USER-SERVICE/
+          predicates:
+            - Path=/users/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: fallBackCommand
+                fallbackUri: forward:/fallback/userService
+    config:
+      uri: http://localhost:9193
+      enabled: true
+  config:
+    import: "optional:configserver:"
+
+server:
+  port: 9191
+
+logging:
+  level:
+    org.springframework: ERROR
+    com.vkiprono: DEBUG
+
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
