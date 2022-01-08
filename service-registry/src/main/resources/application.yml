@@ -1,0 +1,23 @@
+server:
+  port: 8761
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://localhost:8081/eureka
+
+  instance:
+    hostname: localhost
+
+
+  server:
+    wait-time-in-ms-when-sync-empty: 0
+    renewal-percent-threshold: 0.85
+spring:
+  config:
+    import: "optional:configserver:"
+
+  application:
+    name: SERVICE-REGISTRY
